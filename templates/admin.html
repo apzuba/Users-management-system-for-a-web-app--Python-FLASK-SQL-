@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="hero-body" style="height:6em;">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <h1 class="label" style="font-size: 2em; position: absolute; top: -5px;"> <u>Hello, welcome to the admin panel. </u></h1> 
+      </div>
+    </div>
+  </div>
+</div>
+  <section class="hero is-info is-fullheight">
+    <div class="content">
+      {% for user in users %}
+        <div class="user">
+          <form >
+            <p><b>ID: {{ user.id }}</b></p>
+          </form>
+          <b>
+            <p class="name">{{ user.username }} </p>
+          </b>
+          <p>Password: {{ user.password }}</p>
+          <p>Score: {{ user.score }} </p>
+          <p>Joined: {{ user.created_at }}</p>
+          <hr>
+          <form method="POST"
+                  action="{{ url_for('delete_by_id', user_id=user.id) }}">
+              <input type="submit" value="Delete User"
+                  onclick="return confirm('Are you sure you want to delete this entry?')">
+          </form>
+        </div>
+
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

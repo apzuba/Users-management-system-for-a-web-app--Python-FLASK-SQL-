@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+  {% if new_user == 19 %}
+  <h2 style="color: red; display: flex; justify-content: center; align-items: center;"> 
+    User already exists! Please log in with the correct password. </h2>
+
+  {% elif new_user == 20 %}
+  <h2 style="color: green; display: flex; justify-content: center; align-items: center;">
+    New user registered. Please log in with the provided details.</h2>
+
+
+  {% elif new_user == 1 %}
+  <h2 style="color: red; display: flex; justify-content: center; align-items: center;"> 
+    User does not exist. Please register a new account. </h2>
+
+  {% elif new_user == 2 %}
+  <h2 style="color: red; display: flex; justify-content: center; align-items: center;">
+    Please write the correct password!</h2>
+
+
+  {% elif new_user == 7 %}
+  <h2 style="color: green; display: flex; justify-content: center; align-items: center;">
+    Your account has been deleted.</h2>
+  
+  {% elif new_user == 9 %}
+  <h2 style="color: red; display: flex; justify-content: center; align-items: center;">
+    Too many delete tries. </h2>
+
+  {% else %}
+  
+  {% endif %}
+  <section class="hero is-info is-fullheight">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-half">
+            {% if g.user.username %}
+            <h1 class="label" style="font-size: 1.2em;"> Hello, {{ g.user.username }} please log in. </h1> 
+            {% else %}
+            <h1 class="label" style="font-size: 1.2em;"> Hello, please log in. </h1>
+            {% endif %}
+            </br>
+            <form method="POST">
+              <div class="field">
+                <label class="label">Username </label>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input" type="text" name="username" placeholder="Username">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Password</label>
+                <p class="control has-icons-left">
+                  <input class="input" type="password" name="password" placeholder="Password">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control">
+                  <button type="submit" class="button is-success">
+                    Login
+                  </button>
+                </p>
+              </div>
+            </form>
+            </br>
+            <h3><a href="/register">No account? Please register a new player.</a></p></h3>
+            </br>
+          {% if new_user == 9 %}
+          </br>
+            <h3><a onclick="deleteAlert()"><i>Delete an account</i></a></p></h3>
+          </div>
+
+          {% else %}
+          </br>
+            <h3><a href="/delete"><i>Delete an account</i></a></p></h3>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

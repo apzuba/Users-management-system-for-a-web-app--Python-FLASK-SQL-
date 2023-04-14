@@ -1,0 +1,46 @@
+
+
+{% extends "layout.html" %}
+
+{% block content %}
+  <section class="hero is-success is-fullheight">
+    <img style="height: 400px;" src='https://incompliancemag.com/wp-content/uploads/2019/05/1906_NASAColumbia.jpg' />
+    <div class="hero-body" style="position:relative; top:-30px">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-half">
+            {% if g.user.username and room.name in ["Central Corridor"] %}
+            <h1 class="label" style="font-size: 1.7em;"> {{ g.user.username }}, Welcome to <span style="text-decoration: underline; color:rebeccapurple;"> the {{ room.name }}</span> </h1>
+
+            <h2 class="label" style="font-size: 1.2em;">You are the player No: {{ g.user.id }} </h2>
+          
+            {% else %}
+            <h1 class="label" style="font-size: 1.7em; text-decoration: underline; color:rebeccapurple;"> {{ room.name }}</h1>
+
+            {% endif %}
+            </br>
+            <p class="label" style="font-weight: 300; font-size: 1.4em; width: 700px; "> {{ room.description }}</p>
+            </br>
+            {% if room.name in ["Death", "The End"] %}
+
+              <p><a href="/index">Play Again?</a></p>
+
+            {% else %}
+            <div class="tooltip"> Get a hint
+              <span class="tooltiptext"> {{ room.hints }}</span>
+            </div>
+            <div class="field">
+              <p class="control">
+                <form action="/game" method="POST">
+                  <input class="button" type="text" name="action"> 
+                  <input class="button" type="SUBMIT" placeholder="Działaj">
+                </form>
+              </p>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
