@@ -29,8 +29,17 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 db = SQLAlchemy(app)
 
-#Class for handling the user data within the SQL database
 class User(db.Model):
+    """ Class for handling the user data within the SQL database.
+
+    Parameters
+    ----------
+    id: int
+    username: string(100)
+    password: string(128)
+    score: int
+    created_at: datetime
+    """
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(128), nullable=False)
@@ -44,6 +53,9 @@ class User(db.Model):
 
 #AUTH and security decorators 
 def login_req(f):
+    """
+    Adds a requirement for logging in before accessing the path. 
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get('user_id') is None:
@@ -52,6 +64,9 @@ def login_req(f):
     return decorated_function 
 
 def admin_login_required(f):
+    """
+    Adds a requirement for admin logging in before accessing the path. 
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         users = User.query.all()
@@ -78,15 +93,20 @@ new_user_dict = {
 
 try_del_value = Value('i', 0)   #Counts the tries to delete an account
 
-def del_try():                  #Counter function
+def del_try():                 
+    """
+    A counter function for the user attempts. 
+    """
     with try_del_value.get_lock():
         try_del_value.value += 1
         out = try_del_value.value
     return jsonify(count=out)
 
-#Checks if the user is already logged in.
 @app.before_request
 def before_request():
+    """
+    Checks if the user is already logged in.
+    """
     users = User.query.all()
     try:
         if 'user_id' in session:
